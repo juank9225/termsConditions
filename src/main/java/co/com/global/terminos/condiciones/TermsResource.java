@@ -28,6 +28,7 @@ public class TermsResource {
     TermsConditionsService termsConditionsService;
 
     @POST
+    @Path("/create")
     @Produces(APPLICATION_JSON)
     @APIResponse(responseCode = "201", description = "The URI of the terms and conditions created", content = @Content(mediaType = APPLICATION_JSON,schema = @Schema(implementation = URI.class)))
     public Uni<TermsConditionsDTO> createTermsConditions(TermsConditionsDTO termsConditionsDTO) {
@@ -35,6 +36,7 @@ public class TermsResource {
     }
 
     @GET
+    @Path("/consultar")
     @Produces(APPLICATION_JSON)
     @APIResponse(responseCode = "200", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = TermsConditions.class)))
     @APIResponse(responseCode = "204", description = "No Terms and Conditions")
