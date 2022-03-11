@@ -1,6 +1,7 @@
 package co.com.global.terminos.condiciones.Service;
 
 
+import co.com.global.terminos.condiciones.dto.AcepTermsConditionsDTO;
 import co.com.global.terminos.condiciones.mapper.AcepTermsConditionsMapper;
 import co.com.global.terminos.condiciones.model.AcepTermsConditions;
 import co.com.global.terminos.condiciones.model.repository.AcepTermsConditionsRepository;
@@ -26,9 +27,10 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
     @Inject
     AcepTermsConditionsRepository acepTermsConditionsRepository;
 
-    public Uni<AcepTermsConditions> addAcepTermsCondition(AcepTermsConditions acepTermsConditions){
+    public Uni<AcepTermsConditionsDTO> addAcepTermsCondition(AcepTermsConditionsDTO acepTermsConditions){
 
         return Uni.createFrom().item(acepTermsConditions)
+                .map(acepTermsConditionsDTO -> mapToAcepTermsEntity(acepTermsConditionsDTO))
                 .map(acepTerms->{
                     if (acepTerms.getTipoDocumentoCliente().equalsIgnoreCase("C")){
                        addTermsDocumentoCP(acepTerms);
@@ -38,7 +40,8 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
                         acepTerms.setFechaAceptacion(newDate);
                     }
                     return acepTerms;
-                }).flatMap(acepTermsConditionsRepository::persist);
+                }).flatMap(acepTermsConditionsRepository::persist)
+                .map(acepTermsDto->mapToAcepTermsDTO(acepTermsDto));
     }
 
     private Uni<AcepTermsConditions> addTermsDocumentoCP(AcepTermsConditions acepTermsConditions){
@@ -47,7 +50,6 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
         Boolean validacion = matcher.matches();
 
         if (validacion){
-            log.info("INFORMACION DEL VALIDADOR"+validacion);
          return Uni.createFrom().item(acepTermsConditions);
         }
         throw new IllegalArgumentException(DOCUMENTO_NO_VALIDO);

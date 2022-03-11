@@ -22,8 +22,10 @@ import javax.ws.rs.core.Response;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.Status.NOT_ACCEPTABLE;
 
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -57,12 +59,14 @@ public class TermsResource {
     @Path("/agree")
     @Produces(APPLICATION_JSON)
     @APIResponse(responseCode = "201", description = "The URI of the terms and conditions created", content = @Content(mediaType = APPLICATION_JSON,schema = @Schema(implementation = URI.class)))
-    public Uni<AcepTermsConditions> createAcepTermsConditions(AcepTermsConditions acepTermsConditions) {
-        if(acepTermsConditions.getTipoDocumentoCliente().equalsIgnoreCase("C")||
-                acepTermsConditions.getTipoDocumentoCliente().equalsIgnoreCase("P")){
-            return acepTermsConditionsService.addAcepTermsCondition(acepTermsConditions);
+    public Uni<Response> createAcepTermsConditions(AcepTermsConditionsDTO acepTermsConditionsDTO) {
+        if(acepTermsConditionsDTO.getTipoDocumentoCliente().equalsIgnoreCase("C")||
+                acepTermsConditionsDTO.getTipoDocumentoCliente().equalsIgnoreCase("P")){
+
+            return acepTermsConditionsService.addAcepTermsCondition(acepTermsConditionsDTO)
+                    .map(acepTermsC -> Response.ok(acepTermsC).build());
         }
-        throw new IllegalArgumentException("El tipo de documento no es vlido");
+        return Uni.createFrom().item(Response.status(NOT_ACCEPTABLE).build());
     }
 
 }
