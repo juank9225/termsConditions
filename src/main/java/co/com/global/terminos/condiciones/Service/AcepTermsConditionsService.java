@@ -4,7 +4,6 @@ package co.com.global.terminos.condiciones.Service;
 import co.com.global.terminos.condiciones.mapper.AcepTermsConditionsMapper;
 import co.com.global.terminos.condiciones.model.AcepTermsConditions;
 import co.com.global.terminos.condiciones.model.repository.AcepTermsConditionsRepository;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.smallrye.mutiny.Uni;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,9 +47,10 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
         Boolean validacion = matcher.matches();
 
         if (validacion){
+            log.info("INFORMACION DEL VALIDADOR"+validacion);
          return Uni.createFrom().item(acepTermsConditions);
         }
-       return Uni.createFrom().item(null);
+        throw new IllegalArgumentException(DOCUMENTO_NO_VALIDO);
     }
 
     private Uni<AcepTermsConditions> addTermsDocumentoP(AcepTermsConditions acepTermsConditions){
@@ -61,7 +61,7 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
         if (validacion){
             return Uni.createFrom().item(acepTermsConditions);
         }
-        return Uni.createFrom().item(null);
+        throw new IllegalArgumentException(DOCUMENTO_NO_VALIDO);
     }
 
 }
