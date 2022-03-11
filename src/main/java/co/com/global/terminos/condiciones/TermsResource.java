@@ -10,6 +10,7 @@ import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -17,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import java.net.URI;
 import java.util.Optional;
@@ -27,6 +29,9 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/terms")
 public class TermsResource {
+
+    @Inject
+    Logger logger;
 
     @Inject
     TermsConditionsService termsConditionsService;
