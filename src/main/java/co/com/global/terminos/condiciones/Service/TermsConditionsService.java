@@ -5,7 +5,6 @@ import co.com.global.terminos.condiciones.mapper.TermsConditionsMapper;
 import co.com.global.terminos.condiciones.model.TermsConditions;
 import co.com.global.terminos.condiciones.model.repository.TermsConditionsRepository;
 import io.smallrye.mutiny.Uni;
-import lombok.RequiredArgsConstructor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 @ApplicationScoped
-@RequiredArgsConstructor
 public class TermsConditionsService implements  TermsConditionsMapper {
 
     private final LocalDate newDate = LocalDate.now(ZoneId.of("America/Bogota") );

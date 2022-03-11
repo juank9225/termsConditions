@@ -1,7 +1,10 @@
 package co.com.global.terminos.condiciones;
 
+import co.com.global.terminos.condiciones.Service.AcepTermsConditionsService;
 import co.com.global.terminos.condiciones.Service.TermsConditionsService;
+import co.com.global.terminos.condiciones.dto.AcepTermsConditionsDTO;
 import co.com.global.terminos.condiciones.dto.TermsConditionsDTO;
+import co.com.global.terminos.condiciones.model.AcepTermsConditions;
 import co.com.global.terminos.condiciones.model.TermsConditions;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -16,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import java.net.URI;
+import java.util.Optional;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -27,8 +31,11 @@ public class TermsResource {
     @Inject
     TermsConditionsService termsConditionsService;
 
+    @Inject
+    AcepTermsConditionsService acepTermsConditionsService;
+
     @POST
-    @Path("/create")
+    @Path("/crear")
     @Produces(APPLICATION_JSON)
     @APIResponse(responseCode = "201", description = "The URI of the terms and conditions created", content = @Content(mediaType = APPLICATION_JSON,schema = @Schema(implementation = URI.class)))
     public Uni<TermsConditionsDTO> createTermsConditions(TermsConditionsDTO termsConditionsDTO) {
@@ -42,6 +49,14 @@ public class TermsResource {
     @APIResponse(responseCode = "204", description = "No Terms and Conditions")
     public Uni<TermsConditionsDTO> getTermsConditios(){
         return termsConditionsService.getLatestTermsCondition();
+    }
+
+    @POST
+    @Path("/agree")
+    @Produces(APPLICATION_JSON)
+    @APIResponse(responseCode = "201", description = "The URI of the terms and conditions created", content = @Content(mediaType = APPLICATION_JSON,schema = @Schema(implementation = URI.class)))
+    public Uni<AcepTermsConditions> createAcepTermsConditions(AcepTermsConditions acepTermsConditions) {
+        return acepTermsConditionsService.addAcepTermsCondition(acepTermsConditions);
     }
 
 }
