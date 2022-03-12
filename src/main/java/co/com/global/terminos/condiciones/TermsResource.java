@@ -64,7 +64,9 @@ public class TermsResource {
                 acepTermsConditionsDTO.getTipoDocumentoCliente().equalsIgnoreCase("P")){
 
             return acepTermsConditionsService.addAcepTermsCondition(acepTermsConditionsDTO)
-                    .map(acepTermsC -> Response.ok(acepTermsC).build());
+                    .map(acepTermsC -> Response.ok(acepTermsC).build())
+                    .onFailure().
+                    recoverWithItem(() -> Response.status(NOT_ACCEPTABLE).build());
         }
         return Uni.createFrom().item(Response.status(NOT_ACCEPTABLE).build());
     }
