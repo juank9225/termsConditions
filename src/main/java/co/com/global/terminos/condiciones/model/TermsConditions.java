@@ -1,6 +1,7 @@
 package co.com.global.terminos.condiciones.model;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
+import io.quarkus.mongodb.panache.reactive.ReactivePanacheMongoEntity;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @MongoEntity(collection = "tyc")
-public class TermsConditions{
+public class TermsConditions {
 
     private String texto;
     private Integer version;

@@ -29,7 +29,7 @@ public class TermsResource {
     @POST
     public Uni<Response> createTermsConditions(TermsConditionsDTO termsConditionsDTO) {
         return termsConditionsService.addTermsConditions(termsConditionsDTO)
-                .map(termsConditions ->Response.ok(termsConditions).build() );
+                .map(termsConditions ->Response.ok(termsConditions).build());
     }
 
     @GET

@@ -25,12 +25,14 @@ class TermsConditionsServiceTest {
     TermsConditionsRepository termsConditionsRepository;
 
     private TermsConditions terms;
+    private LocalDate fecha;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
 
-        LocalDate fecha = LocalDate.now();
+        fecha = LocalDate.now();
+
         terms = TermsConditions.builder()
                 .texto("test")
                 .version(1)
@@ -40,7 +42,6 @@ class TermsConditionsServiceTest {
 
     @Test
     void addTermsConditionsTest(){
-        LocalDate fecha = LocalDate.now();
 
         var termsDTO = TermsConditionsDTO.builder()
                 .texto("test")
