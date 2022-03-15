@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 @ApplicationScoped
 public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
 
-    public static final String DOCUMENTO_NO_VALIDO ="El Formato del documento no es valio, vuelva a intentar con un formato valido";
+    public static final String DOCUMENTO_VALIDO ="acepto los terminos y condiciones, se procedera a guardar esta informacion.";
     private static LocalDate newDate = LocalDate.now(ZoneId.of("America/Bogota"));
 
     private final Logger log = LoggerFactory.getLogger(AcepTermsConditionsService.class);
@@ -52,7 +52,7 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
                  .item(acepTermsConditions)
                  .flatMap(acepTermsConditionsRepository::persist)
                  .map(acepTermsC -> bilderRespuesta("Usuario "+acepTermsConditions.getNumeroDocumento()+
-                         " acepto los terminos y condiciones, se procedera a guardar esta informacion."));
+                         DOCUMENTO_VALIDO));
         }
         throw new IllegalArgumentException();
     }
@@ -67,7 +67,7 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
                     .item(acepTermsConditions)
                     .flatMap(acepTermsConditionsRepository::persist)
                     .map(acepTermsC -> bilderRespuesta("Usuario "+acepTermsConditions.getNumeroDocumento()+
-                            " acepto los terminos y condiciones, se procedera a guardar esta informacion."));
+                            DOCUMENTO_VALIDO));
         }
         throw new IllegalArgumentException();
     }

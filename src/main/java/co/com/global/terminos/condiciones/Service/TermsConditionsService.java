@@ -21,8 +21,7 @@ public class TermsConditionsService implements  TermsConditionsMapper {
 
 
     public Uni<TermsConditionsDTO> addTermsConditions(TermsConditionsDTO termsConditionsDTO) {
-        return termsConditionsRepository.findAll()
-                .count().onItem().transform(valorVersion -> valorVersion.intValue())
+        return termsConditionsRepository.findAllTerms()
                 .map(version -> bilTerms(termsConditionsDTO.getTexto(), version.intValue()+1, newDate))
                 .flatMap(termsConditionsBil ->termsConditionsRepository.persist(termsConditionsBil))
                 .map(termsConditions -> mapToTermsDTO(termsConditions));
