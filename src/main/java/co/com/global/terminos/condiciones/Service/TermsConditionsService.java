@@ -36,8 +36,7 @@ public class TermsConditionsService implements  TermsConditionsMapper {
     }
 
     public Uni<TermsConditionsDTO> getLatestTermsCondition(){
-        return termsConditionsRepository.findAll()
-                .list()
+        return termsConditionsRepository.findList()
                 .map(termsConditions -> termsConditions
                         .get(termsConditions.size()-1))
                 .map(termsConditions -> mapToTermsDTO(termsConditions));

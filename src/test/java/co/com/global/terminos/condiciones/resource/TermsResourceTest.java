@@ -6,12 +6,15 @@ import co.com.global.terminos.condiciones.model.repository.TermsConditionsReposi
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.smallrye.mutiny.Uni;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -43,7 +46,7 @@ class TermsResourceTest {
     }
 
     @Test
-     void testcreateTermsConditions(){
+     void testcreateTermsConditionsPost(){
 
         Mockito.when(termsConditionsRepository.findAllTerms()).thenReturn(Uni.createFrom().item(1));
         Mockito.when(termsConditionsRepository.persist(Mockito.any(TermsConditions.class))).thenReturn(Uni.createFrom().item(terminosCon));
@@ -54,6 +57,28 @@ class TermsResourceTest {
                 .post("/api/terms")
                 .then()
                 .statusCode(200);
+
+    }
+
+    @Test
+    void testgetTermsConditios(){
+
+        LocalDate date = LocalDate.now();
+
+        List<TermsConditions> listTerms = new ArrayList<>();
+        listTerms.add(new TermsConditions("test 1",1, date));
+        listTerms.add(new TermsConditions("test 2",2, date));
+        listTerms.add(new TermsConditions("test 3",3, date));
+
+        Mockito.when(termsConditionsRepository.findList()).thenReturn(Uni.createFrom().item(listTerms));
+
+        given().when()
+                .header("Content-Type", "application/json")
+                .get("/api/terms/consultar")
+                .then()
+                .statusCode(200)
+                .body("texto", Is.is("test 3"))
+                .body("version",Is.is(3));
 
     }
 

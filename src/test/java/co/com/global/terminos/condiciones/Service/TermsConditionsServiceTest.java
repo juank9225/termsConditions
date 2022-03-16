@@ -8,12 +8,13 @@ import io.smallrye.mutiny.Uni;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @QuarkusTest
 class TermsConditionsServiceTest {
@@ -57,6 +58,25 @@ class TermsConditionsServiceTest {
            Assertions.assertEquals("test",termsConditionsDTO.getTexto());
        });
 
+    }
+
+    @Test
+    void getLatestTermsConditionTest(){
+
+        LocalDate date = LocalDate.now();
+
+        List<TermsConditions> listTerms = new ArrayList<>();
+        listTerms.add(new TermsConditions("test 1",1, date));
+        listTerms.add(new TermsConditions("test 2",2, date));
+        listTerms.add(new TermsConditions("test 3",3, date));
+
+        Mockito.when(termsConditionsRepository.findList()).thenReturn(Uni.createFrom().item(listTerms));
+
+        termsConditionsService.getLatestTermsCondition().subscribe().with(termsConditionsDTO -> {
+            Assertions.assertEquals("test 3",termsConditionsDTO.getTexto());
+            Assertions.assertEquals(3,termsConditionsDTO.getVersion());
+            Assertions.assertEquals(date,termsConditionsDTO.getFechaGeneracion());
+        });
     }
 
 }
