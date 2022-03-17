@@ -42,7 +42,7 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
                 });
     }
 
-    private Uni<RespuestaDTO> addTermsDocumentoCP(AcepTermsConditions acepTermsConditions){
+    public Uni<RespuestaDTO> addTermsDocumentoCP(AcepTermsConditions acepTermsConditions){
         Pattern patron = Pattern.compile("[0-9]{2}-[a-zA-Z]{2}-[0-9]{2}-[0-9]{4}");
         Matcher matcher = patron.matcher(acepTermsConditions.getNumeroDocumento());
         Boolean validacion = matcher.matches();
@@ -57,7 +57,7 @@ public class AcepTermsConditionsService implements AcepTermsConditionsMapper{
         throw new IllegalArgumentException();
     }
 
-    private Uni<RespuestaDTO> addTermsDocumentoP(AcepTermsConditions acepTermsConditions){
+    public Uni<RespuestaDTO> addTermsDocumentoP(AcepTermsConditions acepTermsConditions){
         Pattern patron = Pattern.compile("[a-zA-Z0-9-]{5,16}");
         Matcher matcher = patron.matcher(acepTermsConditions.getNumeroDocumento());
         Boolean validacion = matcher.matches();

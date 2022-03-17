@@ -11,6 +11,7 @@ import io.quarkus.test.junit.mockito.InjectMock;
 import io.smallrye.mutiny.Uni;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -22,6 +23,7 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
+@DisplayName("Test Rest EndPoint")
 class TermsResourceTest {
 
     private TermsConditionsDTO terminos;
@@ -52,6 +54,7 @@ class TermsResourceTest {
     }
 
     @Test
+    @DisplayName("Test Rest Post")
      void testcreateTermsConditionsPost(){
 
         Mockito.when(termsConditionsRepository.findAllTerms()).thenReturn(Uni.createFrom().item(1));
@@ -63,10 +66,10 @@ class TermsResourceTest {
                 .post("/api/terms")
                 .then()
                 .statusCode(200);
-
     }
 
     @Test
+    @DisplayName("Test Rest Get")
     void testgetTermsConditios(){
 
         LocalDate date = LocalDate.now();
@@ -85,10 +88,10 @@ class TermsResourceTest {
                 .statusCode(200)
                 .body("texto", Is.is("test 3"))
                 .body("version",Is.is(3));
-
     }
 
     @Test
+    @DisplayName("Test Rest Post Cedula")
     void testcreateAcepTermsConditionsCedula(){
         LocalDate date = LocalDate.now();
 
@@ -103,10 +106,10 @@ class TermsResourceTest {
                 .post("/api/terms/agree")
                 .then()
                 .statusCode(200);
-
     }
 
     @Test
+    @DisplayName("Test Rest Post Pasaporte")
     void testcreateAcepTermsConditionsPasaporte(){
         LocalDate date = LocalDate.now();
 
@@ -121,7 +124,20 @@ class TermsResourceTest {
                 .post("/api/terms/agree")
                 .then()
                 .statusCode(200);
+    }
 
+    @Test
+    @DisplayName("Test Rest NOT_ACCEPTABLE")
+    void testAceptTermsCondicionsExceptio(){
+        LocalDate date = LocalDate.now();
+        AcepTermsConditionsDTO acepTermsDTO = new AcepTermsConditionsDTO("M","11-LL-55",1,date);
+
+        given().when()
+                .header("Content-Type", "application/json")
+                .body(acepTermsDTO)
+                .post("/api/terms/agree")
+                .then()
+                .statusCode(406);
     }
 
 }

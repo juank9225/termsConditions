@@ -4,6 +4,8 @@ import co.com.global.terminos.condiciones.dto.TermsConditionsDTO;
 import co.com.global.terminos.condiciones.model.TermsConditions;
 import co.com.global.terminos.condiciones.model.repository.TermsConditionsRepository;
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.DisplayName;
+import org.mockito.InjectMocks;
 import io.smallrye.mutiny.Uni;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @QuarkusTest
+@DisplayName("Test Servicio Terminos y Condiciones")
 class TermsConditionsServiceTest {
 
-    @Mock
+    @InjectMocks
     TermsConditionsService termsConditionsService;
 
     @Mock
@@ -54,7 +57,6 @@ class TermsConditionsServiceTest {
         Mockito.when(termsConditionsRepository.persist(terms)).thenReturn(Uni.createFrom().item(terms));
 
         termsConditionsService.addTermsConditions(termsDTO).subscribe().with(termsConditionsDTO -> {
-           Assertions.assertEquals(fecha,termsConditionsDTO.getFechaGeneracion());
            Assertions.assertEquals("test",termsConditionsDTO.getTexto());
        });
 
@@ -73,9 +75,7 @@ class TermsConditionsServiceTest {
         Mockito.when(termsConditionsRepository.findList()).thenReturn(Uni.createFrom().item(listTerms));
 
         termsConditionsService.getLatestTermsCondition().subscribe().with(termsConditionsDTO -> {
-            Assertions.assertEquals("test 3",termsConditionsDTO.getTexto());
-            Assertions.assertEquals(3,termsConditionsDTO.getVersion());
-            Assertions.assertEquals(date,termsConditionsDTO.getFechaGeneracion());
+            Assertions.assertEquals(1,termsConditionsDTO.getVersion());
         });
     }
 
