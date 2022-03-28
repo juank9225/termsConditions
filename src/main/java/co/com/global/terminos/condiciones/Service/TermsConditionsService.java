@@ -19,7 +19,6 @@ public class TermsConditionsService implements  TermsConditionsMapper {
     @Inject
     TermsConditionsRepository termsConditionsRepository;
 
-
     public Uni<TermsConditionsDTO> addTermsConditions(TermsConditionsDTO termsConditionsDTO) {
         return termsConditionsRepository.findAllTerms()
                 .map(version -> bilTerms(termsConditionsDTO.getTexto(), version.intValue()+1, newDate))
