@@ -4,12 +4,14 @@ import co.com.global.terminos.condiciones.dto.TermsConditionsDTO;
 import co.com.global.terminos.condiciones.mapper.TermsConditionsMapper;
 import co.com.global.terminos.condiciones.model.TermsConditions;
 import co.com.global.terminos.condiciones.model.repository.TermsConditionsRepository;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 @ApplicationScoped
 public class TermsConditionsService implements  TermsConditionsMapper {
@@ -40,4 +42,5 @@ public class TermsConditionsService implements  TermsConditionsMapper {
                         .get(termsConditions.size()-1))
                 .map(termsConditions -> mapToTermsDTO(termsConditions));
     }
+
 }
